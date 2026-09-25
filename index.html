@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#20102f">
+  <title>Happy Birthday, Rasmina! 🎂</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100svh; display: grid; place-items: center; padding: 28px 18px; color: #fff5fc; background: radial-gradient(ellipse at top, #613464, #20102f 65%); font-family: system-ui, sans-serif; }
+    main { position: relative; z-index: 1; width: min(100%, 560px); padding: 42px 24px; text-align: center; border: 1px solid #ffffff30; border-radius: 30px; background: #ffffff0c; box-shadow: 0 24px 90px #0004; }
+    .label { color: #ffd59c; font-size: 11px; letter-spacing: 4px; text-transform: uppercase; }
+    .cake { font-size: 72px; margin: 24px 0 12px; animation: float 3s ease-in-out infinite; }
+    h1 { font-size: clamp(30px, 7vw, 46px); line-height: 1.15; margin: 12px 0; font-weight: 650; }
+    h1 span { display: block; font-family: Georgia, serif; font-style: italic; color: #ffc1dd; font-size: clamp(48px, 11vw, 76px); margin-top: 8px; overflow-wrap: anywhere; }
+    .divider { width: 60px; height: 2px; background: #ffd59c; margin: 26px auto; }
+    p { font-size: 16px; line-height: 1.85; color: #ecddec; }
+    button { margin: 18px 0 4px; padding: 16px 24px; border: 0; border-radius: 50px; background: #ffd59c; color: #341c38; font: 700 15px system-ui, sans-serif; cursor: pointer; transition: transform .2s, background .2s; }
+    button:hover { transform: translateY(-3px); background: #ffe5bf; }
+    button:focus-visible { outline: 3px solid white; outline-offset: 5px; }
+    #surprise { margin-top: 24px; padding: 20px; border-radius: 18px; background: #ffc1dd12; border: 1px solid #ffc1dd40; }
+    #surprise p { margin: 0; }
+    footer { margin-top: 28px; font-size: 12px; letter-spacing: 1px; color: #cfb6ce; }
+    canvas { position: fixed; inset: 0; pointer-events: none; z-index: 2; }
+    #cake-scene { margin-top: 24px; }
+    .birthday-cake { position: relative; width: 220px; height: 190px; margin: 10px auto; }
+    .cake-base { position: absolute; bottom: 16px; width: 220px; height: 95px; border-radius: 18px 18px 12px 12px; background: linear-gradient(#ffcee3 0 28%, #e68cb1 28% 47%, #ffe0bb 47% 63%, #e68cb1 63%); box-shadow: 0 10px 0 #fff0db; }
+    .cake-base::after { content: 'Rasmina ♡'; display: block; margin-top: 47px; color: #602c48; font: italic 23px Georgia, serif; }
+    #candle { position: absolute; left: 86px; top: 0; width: 48px; height: 86px; padding: 0; margin: 0; background: transparent; border-radius: 10px; }
+    #candle:hover { transform: none; }
+    .wax { position: absolute; bottom: 0; left: 17px; width: 14px; height: 42px; border-radius: 4px 4px 0 0; background: repeating-linear-gradient(135deg, #fff5fc 0 7px, #aa85d7 7px 14px); }
+    .flame { position: absolute; top: 7px; left: 15px; width: 18px; height: 30px; border-radius: 80% 20% 60% 40%; background: radial-gradient(ellipse at bottom, #fff 0 15%, #ffe78a 35%, #ff9a36 80%); box-shadow: 0 0 22px #ffb950; transform: rotate(-12deg); animation: flicker .7s ease-in-out infinite alternate; }
+    .out .flame { display: none; }
+    #mic-status { font-size: 14px; }
+    #mic-button { font-size: 14px; margin-top: 8px; }
+    @keyframes flicker { to { transform: rotate(9deg) scale(.9, 1.08); } }
+    @media (prefers-reduced-motion: reduce) { .flame { animation: none; } }
+    @keyframes float { 50% { transform: translateY(-8px) rotate(4deg); } }
+    @media (prefers-reduced-motion: reduce) { .cake { animation: none; } button { transition: none; } }
+  </style>
+</head>
+<body>
+  <canvas id="confetti" aria-hidden="true"></canvas>
+  <main>
+    <div class="label">For my best friend</div>
+    <div class="cake" aria-hidden="true">🎂</div>
+    <h1>Happy Birthday,<span>Rasmina!</span></h1>
+    <div class="divider"></div>
+    <p>A special birthday wish for my best friend! 💖<br>
+      May your life be full of smiles, happiness,<br>and beautiful memories.</p>
+    <p>May all your dreams come true.<br>Wishing you happiness today and always! ✨</p>
+    <button id="gift" type="button" aria-expanded="false" aria-controls="surprise">A surprise for you 🎁</button>
+    <section id="cake-scene" hidden aria-label="Make a birthday wish">
+      <h2>Make a wish, Rasmina! ✨</h2>
+      <div class="birthday-cake">
+        <div class="cake-base" aria-hidden="true"></div>
+        <button id="candle" type="button" aria-label="Blow out the candle"><span class="wax" aria-hidden="true"></span><span class="flame" aria-hidden="true"></span></button>
+      </div>
+      <p id="mic-status" role="status">Blow out your candle! Enable the mic, or tap the flame.</p>
+      <button id="mic-button" type="button">Enable mic 🎤</button>
+    </section>
+    <section id="surprise" hidden aria-label="A special birthday message">
+      <p>I'm so happy to have a best friend like you! 🫶<br><br>
+        May we always be friends and share many more happy moments.<br>
+        May this year bring you lots of good things!<br><br>
+        <strong>Keep smiling, Rasmina!<br>Have the happiest birthday! 🥳💛</strong></p>
+    </section>
+    <footer>Made with love, from your best friend ♡</footer>
+  </main>
+  <script>
+    const button = document.getElementById('gift');
+    const surprise = document.getElementById('surprise');
+    const canvas = document.getElementById('confetti');
+    const ctx = canvas.getContext('2d');
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let particles = [], frame;
+    function resize() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+    function celebrate() {
+      if (reducedMotion.matches || !ctx) return;
+      cancelAnimationFrame(frame);
+      const colors = ['#ffc1dd', '#ffd59c', '#bda5ff', '#a8f0db', '#ffffff'];
+      particles = Array.from({ length: 100 }, () => ({
+        x: Math.random() * canvas.width, y: -Math.random() * canvas.height,
+        speed: 90 + Math.random() * 150, drift: (Math.random() - .5) * 80,
+        angle: Math.random() * Math.PI, color: colors[Math.floor(Math.random() * colors.length)]
+      }));
+      let last = performance.now();
+      function draw(now) {
+        const dt = Math.min((now - last) / 1000, .05);
+        last = now;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particles.forEach(p => {
+          p.y += p.speed * dt; p.x += p.drift * dt; p.angle += dt * 2;
+          ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.angle);
+          ctx.fillStyle = p.color; ctx.fillRect(-3, -5, 6, 10); ctx.restore();
+        });
+        particles = particles.filter(p => p.y < canvas.height + 20);
+        if (particles.length) frame = requestAnimationFrame(draw);
+        else ctx.clearRect(0, 0, canvas.width, canvas.height);
+      }
+      frame = requestAnimationFrame(draw);
+    }
+    const cakeScene = document.getElementById('cake-scene');
+    const candle = document.getElementById('candle');
+    const micButton = document.getElementById('mic-button');
+    const micStatus = document.getElementById('mic-status');
+    let lit = false, micStream, audioContext, listeningFrame, micTimer, micRequest = 0;
+    function stopMic() {
+      micRequest++;
+      cancelAnimationFrame(listeningFrame);
+      clearTimeout(micTimer);
+      if (micStream) micStream.getTracks().forEach(track => track.stop());
+      micStream = null;
+      if (audioContext) audioContext.close().catch(() => {});
+      audioContext = null;
+      micButton.disabled = false;
+      micButton.textContent = 'Enable mic 🎤';
+    }
+    function blowOut() {
+      if (!lit) return;
+      lit = false;
+      stopMic();
+      candle.classList.add('out');
+      candle.disabled = true;
+      micButton.hidden = true;
+      micStatus.textContent = 'Your wish is on its way! Happy Birthday! 💖';
+      surprise.hidden = false;
+      celebrate();
+    }
+    candle.addEventListener('click', blowOut);
+    micButton.addEventListener('click', async () => {
+      if (!lit) return;
+      if (!navigator.mediaDevices?.getUserMedia || !(window.AudioContext || window.webkitAudioContext)) {
+        micStatus.textContent = 'Open the website link in Safari to use the mic, or tap the flame.';
+        return;
+      }
+      stopMic();
+      const request = micRequest;
+      micButton.disabled = true;
+      micStatus.textContent = 'Please allow the microphone to blow out your candle.';
+      try {
+        // Start audio from the tap gesture for mobile Safari.
+        const context = new (window.AudioContext || window.webkitAudioContext)();
+        audioContext = context;
+        const resumed = context.resume();
+        resumed.catch(() => {});
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: false, noiseSuppression: false, autoGainControl: false }, video: false });
+        if (request !== micRequest || !lit) {
+          stream.getTracks().forEach(track => track.stop());
+          return;
+        }
+        micStream = stream;
+        await resumed;
+        if (request !== micRequest || !lit) return;
+        const analyser = context.createAnalyser();
+        analyser.fftSize = 2048;
+        context.createMediaStreamSource(stream).connect(analyser);
+        const samples = new Uint8Array(analyser.fftSize);
+        const started = performance.now();
+        let previous = started, sustained = 0, baseline = 0, count = 0;
+        micStatus.textContent = 'Stay quiet for a moment…';
+        micButton.textContent = 'Listening…';
+        function listen(now) {
+          if (request !== micRequest || !lit) return;
+          analyser.getByteTimeDomainData(samples);
+          let sum = 0;
+          for (const sample of samples) sum += ((sample - 128) / 128) ** 2;
+          const volume = Math.sqrt(sum / samples.length);
+          const dt = Math.min(now - previous, 100);
+          previous = now;
+          if (now - started < 1000) {
+            baseline += volume; count++;
+          } else {
+            micStatus.textContent = 'Now gently blow towards your phone’s microphone! 🕯️';
+            const threshold = Math.max(.055, Math.min(.25, baseline / Math.max(count, 1) * 2.8));
+            sustained = volume > threshold ? sustained + dt : Math.max(0, sustained - dt * 2);
+            if (sustained > 250) { blowOut(); return; }
+          }
+          listeningFrame = requestAnimationFrame(listen);
+        }
+        listeningFrame = requestAnimationFrame(listen);
+        micTimer = setTimeout(() => {
+          stopMic();
+          micStatus.textContent = 'Tap the flame, or enable the mic to try again.';
+        }, 30000);
+      } catch (error) {
+        if (request !== micRequest) return;
+        stopMic();
+        micStatus.textContent = 'The mic is unavailable. You can tap the flame to make your wish!';
+      }
+    });
+    function pauseMic() {
+      stopMic();
+      if (lit) micStatus.textContent = 'Enable the mic to blow out your candle, or tap the flame.';
+    }
+    window.addEventListener('pagehide', pauseMic);
+    document.addEventListener('visibilitychange', () => { if (document.hidden) pauseMic(); });
+    button.addEventListener('click', () => {
+      stopMic();
+      lit = true;
+      cakeScene.hidden = false;
+      surprise.hidden = true;
+      candle.classList.remove('out');
+      candle.disabled = false;
+      micButton.hidden = false;
+      micStatus.textContent = 'Blow out your candle! Enable the mic, or tap the flame.';
+      button.setAttribute('aria-expanded', 'true');
+      button.setAttribute('aria-controls', 'cake-scene surprise');
+      button.textContent = 'Make another wish 🎂';
+      cakeScene.scrollIntoView({ behavior: reducedMotion.matches ? 'instant' : 'smooth', block: 'nearest' });
+    });
+    celebrate();
+  </script>
+</body>
+</html>
